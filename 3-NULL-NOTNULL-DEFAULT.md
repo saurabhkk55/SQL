@@ -106,3 +106,48 @@ In this `customers` table:
 - **Clarity in Data Requirements**: Clearly communicates data requirements to developers and database users.
 
 By understanding the default behavior of columns in SQL databases and leveraging `NOT NULL` constraints where necessary, we can design database schemas that maintain data integrity and support your application's requirements effectively.
+
+
+# `Default value`
+We can specify a default value for a column in a table, which means if a new row is inserted and that column's value is not provided explicitly, the default value will be used instead. This is useful for ensuring consistency and handling cases where certain data might not be provided during insertion.
+
+Here's an example of how to set a default value for a column in an SQL table:
+
+Let's create a simple table named `employees` with some columns including `name`, `age`, and `department`. We'll set a default value for the `department` column to be 'Unknown' if no value is specified during insertion.
+
+```sql
+CREATE TABLE employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    department VARCHAR(50) NOT NULL DEFAULT 'Unknown'
+);
+```
+
+In this SQL statement:
+- `id INT PRIMARY KEY AUTO_INCREMENT` specifies an integer primary key which auto-increments.
+- `name VARCHAR(50) NOT NULL` specifies a required `name` column with a maximum length of 50 characters.
+- `age INT` specifies an optional `age` column (can be `NULL`).
+- `department VARCHAR(50) DEFAULT 'Unknown'` specifies the `department` column with a default value of `'Unknown'` if not specified during insertion.
+
+Now let's insert some rows into this `employees` table:
+
+```sql
+-- Inserting a row without specifying department
+INSERT INTO employees (name, age) VALUES ('John Doe', 30);
+
+-- Inserting a row with a specified department
+INSERT INTO employees (name, age, department) VALUES ('Jane Smith', 25, 'Marketing');
+```
+
+After these insertions, the data in the `employees` table would look like this:
+```
+| id | name       | age | department |
+|----|------------|-----|------------|
+| 1  | John Doe   | 30  | Unknown    |
+| 2  | Jane Smith | 25  | Marketing  |
+```
+
+In the first `INSERT` statement, since the `department` column was not specified, the default value `'Unknown'` was used. In the second `INSERT` statement, we explicitly specified the `department` value as `'Marketing'`, so that value was used instead.
+
+Setting default values can help maintain data integrity and simplify data insertion processes, especially when certain columns have common default values across most records.
